@@ -1,6 +1,6 @@
 ---
 layout: episode.njk
-title: EDC Discord Music Night REWIND... LIVE Vol 001
+title: EDC Discord Music Night REWIND... LIVE Vol 1
 permalink: /episodes/rewind-001/
 date: '2024-09-25'
 coverImage: /img/episodes/rewind-001.jpg
