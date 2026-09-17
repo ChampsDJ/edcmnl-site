@@ -25,7 +25,7 @@ edcmnl-site/
 ├── package.json           ← npm scripts (build, serve) + Eleventy as a dependency
 ├── src/                    ← everything Eleventy reads
 │   ├── _data/
-│   │   └── site.json        ← site-wide values: nav links, footer links, description
+│   │   └── site.json        ← site-wide values: nav links, footer links, logo/mascot, description
 │   ├── _includes/
 │   │   ├── base.njk           ← outer HTML shell every page shares (head, header, footer)
 │   │   └── episode.njk         ← the template that turns one episode's data into a page
@@ -35,10 +35,18 @@ edcmnl-site/
 │   │   ├── vol-47.md              ← ONE FILE PER EPISODE — this is what you'll edit
 │   │   ├── vol-46.md
 │   │   └── ... (48 total, oldest to newest)
+│   ├── img/
+│   │   ├── site/                  ← logo, mascot, favicon — see "Site-wide images" below
+│   │   └── episodes/               ← per-episode cover art, named to match each .md slug
 │   ├── index.njk                  ← homepage template
-│   └── CNAME                       ← tells GitHub Pages which custom domain to serve
+│   ├── 404.njk                     ← not-found page (see "SEO & crawler files" below)
+│   ├── sitemap.njk                  ← generates sitemap.xml at build time
+│   ├── robots.txt                    ← crawler rules, points at the sitemap
+│   └── CNAME                          ← tells GitHub Pages which custom domain to serve
+├── scripts/
+│   └── migrate-images.mjs               ← one-off utility, not part of the normal workflow (see below)
 └── .github/workflows/
-    └── deploy.yml                   ← CI script that builds + publishes on every push
+    └── deploy.yml                         ← CI script that builds + publishes on every push
 ```
 
 ## How a single episode file works
@@ -58,7 +66,7 @@ layout: episode.njk
 title: "EDC Discord Music Night LIVE Vol 47"
 permalink: /episodes/vol-47/
 date: 2026-09-12
-coverImage: "https://..."
+coverImage: "/img/episodes/vol-47.jpg"
 djs:
   - name: Delanada
     link: "https://soundcloud.com/..."
@@ -86,7 +94,8 @@ content in the episode template." Eleventy then:
 - `title` — the episode title as it should appear
 - `permalink` — the URL path, e.g. `/episodes/vol-48/`
 - `date` — `YYYY-MM-DD`, controls sort order and the displayed date
-- `coverImage` — a URL to the cover art (see "Hosting images" below)
+- `coverImage` — path to the cover art, e.g. `/img/episodes/vol-48.jpg`
+  (see "Site-wide and episode images" below for the naming convention)
 - `excerpt` — one sentence shown on the homepage card
 - `nextShow` — optional callout box (next go-live date, etc). Delete this
   line entirely if you don't want the box.
@@ -99,9 +108,9 @@ content in the episode template." Eleventy then:
 ## The templates (`_includes/`)
 
 - **`base.njk`** — the shell every page shares: `<head>`, fonts, the header
-  nav bar, the footer with your Discord/Twitch/EDC links. Edit this for
-  anything site-wide, like a new nav link or footer entry (though most of
-  that actually lives in `site.json` — see below).
+  banner/nav icons, the footer with the mascot and Discord/Twitch/EDC
+  links. Edit this for anything site-wide (though most of the actual
+  content lives in `site.json` — see below).
 - **`episode.njk`** — the shape of one episode page: hero image,
   title/date, intro, the numbered DJ set-order list. Uses Nunjucks
   templating (`{{ variable }}`, `{% for dj in djs %}`) to loop over the
@@ -117,9 +126,12 @@ This is the closest thing to "backend logic" here:
   (`_site/`)
 - Defines the `episodes` collection: grab every file in
   `src/episodes/*.md`, sort by date descending — this is what makes new
-  episodes automatically appear at the top of the homepage with zero
-  manual list-editing
-- Defines the `readableDate` / `shortDate` filters used in the templates
+  episodes automatically appear at the top of the homepage, and at the
+  top of the sitemap, with zero manual list-editing
+- Defines the `readableDate` / `shortDate` / `isoDate` filters used in the
+  templates
+- Passes `src/css`, `src/img`, `src/robots.txt`, and `src/CNAME` straight
+  through to the output untouched
 
 ## Making edits yourself
 
@@ -127,34 +139,47 @@ This is the closest thing to "backend logic" here:
   file, edit the Markdown text below the front matter, save.
 - **Add a link to the nav or footer** — edit `src/_data/site.json`
   (the `links` array is the footer list; `twitch` / `discord` feed the
-  header). One place, used everywhere.
+  header icons). One place, used everywhere.
 - **Add a new episode** — copy an existing `.md` file, change the front
   matter, write the intro. No HTML touched.
 - **Change colors / fonts / spacing** — `src/css/style.css`, plain CSS.
 - **Change the structure of every episode page** — edit `episode.njk`.
 
-## Hosting images
+## Site-wide and episode images
 
-Episode files currently point at their original Blogger-hosted image URLs,
-which will keep working indefinitely. For full independence from Google's
-infrastructure, run the migration script below — or, for any new episode
-you add by hand going forward, just drop the art straight into
-`src/img/episodes/` and reference it as `/img/episodes/your-file.jpg` in
-`coverImage`.
+`src/img/site/` holds the header banner, the footer mascot, and the
+favicon (`logo.jpg`, `mascot.jpg`, `edcfav.ico` — referenced from
+`site.json` and `base.njk`). These almost never change.
 
-### Migrating all cover images to local files
+`src/img/episodes/` holds cover art, one file per episode, named to match
+that episode's slug — `vol-47.jpg` for `vol-47.md`, and so on. Keep using
+that same `<slug>.<ext>` convention for new episodes: drop the file in,
+point `coverImage` at `/img/episodes/<slug>.<ext>` in that episode's front
+matter, done.
 
-```bash
-npm run migrate-images -- --dry-run   # preview what it would do, writes nothing
-npm run migrate-images                 # downloads every remote cover into
-                                         # src/img/episodes/ and rewrites each
-                                         # episode's coverImage to the local path
-```
+`scripts/migrate-images.mjs` is the one-time tool that originally pulled
+every cover (plus the logo and mascot) off Blogger's CDN and rewrote the
+front matter to point at local files — that migration is already done for
+all 48 episodes, so it's not part of the regular workflow anymore. It's
+still there if you ever need it again (a bulk re-fetch, a new batch of old
+posts to migrate, etc.): `npm run migrate-images -- --dry-run` previews,
+`npm run migrate-images` runs it for real, and it always skips anything
+whose image path is already local.
 
-This is safe to run more than once — episodes whose `coverImage` is already
-a local path (starts with `/img/episodes/...`) are skipped automatically,
-so re-running after adding new episodes only touches the new ones. Run it,
-review the changed files with `git diff`, commit, and push as usual.
+## SEO & crawler files
+
+- **`src/robots.txt`** — passed straight through to `_site/robots.txt`.
+  Allows all crawlers and points them at the sitemap.
+- **`src/sitemap.njk`** — builds `_site/sitemap.xml` at build time by
+  looping over the same `collections.episodes` the homepage uses, plus the
+  homepage itself. This means the sitemap **updates itself automatically**
+  every time you add an episode file and push — there's no separate list
+  to maintain by hand, and no way for it to drift out of sync with what's
+  actually on the site.
+- **`src/404.njk`** — a real 404 page, in the same visual language as the
+  homepage (mascot, same type and color system), served whenever GitHub
+  Pages can't find a matching path. Output as `_site/404.html`, which is
+  the specific filename GitHub Pages looks for.
 
 ## Running it locally
 
@@ -164,78 +189,36 @@ npm run serve        # local dev server, live-reloads on file changes
 npm run build         # one-shot build into _site/ — this is what deploy runs
 ```
 
-## Pushing to GitHub for the first time
-
-This repo doesn't exist on GitHub yet, so you'll need to create one and push
-this project into it.
-
-1. **Create a new, empty repository** on GitHub: go to
-   [github.com/new](https://github.com/new), name it (e.g.
-   `edcmnl-site`), leave it empty (no README/gitignore/license — this
-   project already has those), and click **Create repository**.
-2. **From inside this project folder**, initialize git and push:
-
-   ```bash
-   cd edcmnl-site
-   git init
-   git add .
-   git commit -m "Initial commit: migrate from Blogger to Eleventy"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<repo-name>.git
-   git push -u origin main
-   ```
-
-   (If you use SSH instead of HTTPS for GitHub, use the `git@github.com:...`
-   remote URL from the repo's "Code" button instead.)
-
 ## Deploying (GitHub Pages)
 
 `.github/workflows/deploy.yml` is a **GitHub Actions** workflow that builds
-and publishes automatically on every push to `main`. No server for you to
+and publishes automatically on every push to `main`. No server to
 maintain, patch, or pay for — GitHub rebuilds and republishes the whole
 site on every push, and "hosting" is just files sitting in a
 GitHub-managed static bucket.
 
-1. In the repo on GitHub, go to **Settings → Pages** and set **Source** to
-   **GitHub Actions**.
-2. Push to `main` (the first push above already triggers this). Watch it
-   run under the repo's **Actions** tab.
-3. Once it finishes, your site is live at
-   `https://<your-username>.github.io/<repo-name>/` — but you'll point
-   your real domain at it next.
-4. **Point your custom domain at GitHub Pages:**
-   - In your domain's DNS (wherever `edcdiscordmusicnight.live` is
-     registered — Blogger's custom-domain setup uses your registrar's
-     DNS, not Blogger itself, so this doesn't touch Blogger at all), set
-     the `www` record to `CNAME` → `<your-username>.github.io`.
-   - `src/CNAME` in this repo already contains
-     `www.edcdiscordmusicnight.live` — GitHub Pages reads this file on
-     every deploy to know which custom domain to serve.
-   - Back in **Settings → Pages**, add the same custom domain in the
-     "Custom domain" field and enable **Enforce HTTPS** once GitHub
-     finishes verifying it (can take a few minutes to a few hours).
-5. Once DNS and GitHub Pages both confirm the domain is live, you can turn
-   off or delete the Blogger site.
-
-## What happens on every future push
-
-```
+```bash
 git add .
 git commit -m "Add Vol 48"
 git push
 ```
 
-GitHub Actions then, automatically:
+That's it. From there, GitHub Actions automatically:
 
 1. Spins up a temporary Linux runner
 2. Checks out the repo, runs `npm ci` and `npm run build`
 3. Uploads the resulting `_site/` folder to GitHub Pages
 4. Your live site updates within a minute or two — no manual deploy step,
-   ever.
+   ever, and the sitemap in that build always reflects exactly what got
+   pushed.
 
 ## Design notes
 
 Colors, type, and layout are defined in `src/css/style.css`. The palette is
 a deep violet-navy base with one magenta accent and one cyan accent (used
 only for links). Headlines use "Unbounded," body text uses "Inter," both
-loaded from Google Fonts in `base.njk`.
+loaded from Google Fonts in `base.njk`. The header banner spans the same
+`980px` content column as the rest of the site and is centered; the Twitch
+and Discord icons below it are recolored via a CSS mask so any SVG dropped
+into `src/img/site/` picks up the site's palette automatically, regardless
+of what colors are baked into the file itself.
