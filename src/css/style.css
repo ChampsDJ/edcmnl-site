@@ -67,49 +67,72 @@ button:focus-visible {
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.1rem;
   padding: 2rem clamp(1.25rem, 5vw, 3rem) 1.5rem;
   max-width: 980px;
   margin: 0 auto;
 }
 
 .site-header__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  color: var(--ink);
-  text-decoration: none;
+  display: block;
+  width: 100%;
 }
 
-.site-header__mark {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1.1rem;
-  letter-spacing: 0.02em;
-  background: var(--magenta);
-  color: #170a10;
-  padding: 0.35rem 0.55rem;
-  border-radius: 6px;
-  line-height: 1;
-}
-
-.site-header__name {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.95rem;
-  line-height: 1.25;
+.site-header__banner {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .site-header__nav {
   display: flex;
-  gap: 1.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  justify-content: center;
+  gap: 1rem;
 }
-.site-header__nav a { color: var(--ink-soft); text-decoration: none; }
-.site-header__nav a:hover { color: var(--cyan); }
+
+/* Icon buttons use a CSS mask so the SVG files you drop into
+   src/img/site/ get recolored to match the site palette (ink-soft,
+   cyan on hover) regardless of whatever colors are baked into the
+   files themselves. */
+.site-header__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  transition: border-color 0.2s ease;
+}
+.site-header__icon:hover { border-color: var(--cyan); }
+
+.site-header__icon::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 28px;
+  background-color: var(--ink-soft);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: background-color 0.2s ease;
+}
+.site-header__icon:hover::before { background-color: var(--cyan); }
+
+.site-header__icon--twitch::before {
+  -webkit-mask-image: url('/img/site/twitch-icon.svg');
+  mask-image: url('/img/site/twitch-icon.svg');
+}
+.site-header__icon--discord::before {
+  -webkit-mask-image: url('/img/site/discord-icon.svg');
+  mask-image: url('/img/site/discord-icon.svg');
+}
 
 /* ---------------------------------------------------------
    Homepage intro
@@ -160,6 +183,7 @@ button:focus-visible {
   color: inherit;
 }
 .episode-card:first-child { padding-top: 2rem; }
+.episode-card:last-child { border-bottom: none; }
 
 .episode-card__art {
   aspect-ratio: 1 / 1;
@@ -344,26 +368,35 @@ a.setlist__name:hover { color: var(--magenta); }
   z-index: 1;
   max-width: 980px;
   margin: 0 auto;
-  padding: 2.5rem clamp(1.25rem, 5vw, 3rem) 3rem;
+  padding: 3rem clamp(1.25rem, 5vw, 3rem) 3.5rem;
   border-top: 1px solid var(--panel-line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.site-footer__row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 2rem;
-  justify-content: space-between;
-  align-items: baseline;
-  color: var(--ink-faint);
-  font-size: 0.9rem;
+.site-footer__mascot {
+  width: 160px;
+  height: auto;
+  border-radius: 14px;
+  margin: 0 0 1.25rem;
+}
+
+.site-footer__tagline {
+  margin: 0 0 1.5rem;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  max-width: 48ch;
 }
 
 .site-footer__links {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.1rem;
-  margin: 0;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 1.5rem;
   padding: 0;
 }
 .site-footer__links a {
@@ -373,8 +406,8 @@ a.setlist__name:hover { color: var(--magenta); }
 }
 .site-footer__links a:hover { color: var(--cyan); }
 
-.site-footer__tag {
-  margin: 1.25rem 0 0;
+.site-footer__est {
+  margin: 0;
   color: var(--ink-faint);
   font-size: 0.85rem;
 }

@@ -17,19 +17,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="/img/site/edcfav.ico">
 </head>
 <body>
   <div class="skyline" aria-hidden="true"></div>
 
   <header class="site-header">
     <a class="site-header__brand" href="/">
-      <span class="site-header__mark">MNL</span>
-      <span class="site-header__name">EDC Discord<br>Music Night LIVE</span>
+      <img class="site-header__banner" src="{{ site.logoImage }}" alt="{{ site.title }}" width="800" height="99">
     </a>
     <nav class="site-header__nav">
-      <a href="{{ site.twitch }}">Twitch</a>
-      <a href="{{ site.discord }}">Discord</a>
+      <a href="{{ site.twitch }}" class="site-header__icon site-header__icon--twitch" aria-label="Twitch"></a>
+      <a href="{{ site.discord }}" class="site-header__icon site-header__icon--discord" aria-label="Discord"></a>
     </nav>
   </header>
 
@@ -38,15 +37,14 @@
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__row">
-      <p>Est. {{ site.founded }} &mdash; {{ site.title }}</p>
-      <ul class="site-footer__links">
-        {% for link in site.links %}
-        <li><a href="{{ link.url }}">{{ link.label }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
-    <p class="site-footer__tag">Under the Electric Sky, we vibe on Discord.</p>
+    <img class="site-footer__mascot" src="{{ site.mascotImage }}" alt="EDC Discord MNL mascot" width="1600" height="1035" loading="lazy">
+    <p class="site-footer__tagline">Until we meet again Under the Electric Sky... we vibe on Discord.</p>
+    <ul class="site-footer__links">
+      {% for link in site.links %}
+      <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+      {% endfor %}
+    </ul>
+    <p class="site-footer__est">Est. {{ site.founded }} &mdash; {{ site.title }}</p>
   </footer>
 </body>
 </html>

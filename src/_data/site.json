@@ -2,17 +2,37 @@
   "title": "EDC Discord Music Night LIVE",
   "shortTitle": "MNL",
   "url": "https://www.edcdiscordmusicnight.live",
-  "description": "An unofficial EDC Discord series on Twitch showcasing DJs from the Electric Daisy Carnival Discord once a month, plus MNL Rewind every week.",
+  "description": "EDC Discord Music Night LIVE is a once per month  electronic dance music live stream on Twitch that showcases up and coming DJ talent from the Electric Daisy Carnival Discord, with weekly Rewind shows on Sundays!",
   "twitch": "https://twitch.tv/edcdiscordmusicnight",
   "discord": "https://discord.gg/electricdaisycarnival",
   "reddit": "https://reddit.com/r/electricdaisycarnival",
   "founded": "2022",
+  "logoImage": "/img/site/logo.jpg",
+  "mascotImage": "/img/site/mascot.jpg",
   "links": [
-    { "label": "Twitch", "url": "https://twitch.tv/edcdiscordmusicnight" },
-    { "label": "Discord", "url": "https://discord.gg/electricdaisycarnival" },
-    { "label": "Subreddit", "url": "https://reddit.com/r/electricdaisycarnival" },
-    { "label": "EDC Las Vegas", "url": "https://lasvegas.electricdaisycarnival.com" },
-    { "label": "EDC Orlando", "url": "https://orlando.electricdaisycarnival.com" },
-    { "label": "EDC Mexico", "url": "https://mexico.electricdaisycarnival.com" }
+    {
+      "label": "Twitch",
+      "url": "https://twitch.tv/edcdiscordmusicnight"
+    },
+    {
+      "label": "Discord",
+      "url": "https://discord.gg/electricdaisycarnival"
+    },
+    {
+      "label": "Subreddit",
+      "url": "https://reddit.com/r/electricdaisycarnival"
+    },
+    {
+      "label": "EDC Las Vegas",
+      "url": "https://lasvegas.electricdaisycarnival.com"
+    },
+    {
+      "label": "EDC Orlando",
+      "url": "https://orlando.electricdaisycarnival.com"
+    },
+    {
+      "label": "EDC Mexico",
+      "url": "https://mexico.electricdaisycarnival.com"
+    }
   ]
 }
