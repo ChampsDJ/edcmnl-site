@@ -24,6 +24,16 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(new Date(dateObj), { zone: "utc" }).toFormat("yyyy-LL-dd");
   });
 
+  // Turns a local path ("/img/episodes/vol-47.jpg") into a full URL for
+  // meta tags (og:image, canonical, etc). Leaves an already-absolute URL
+  // (http:// or https://) untouched, so it's safe even if a cover image
+  // is ever set to a remote link instead of a local file.
+  eleventyConfig.addFilter("absoluteUrl", (url, base) => {
+    if (!url) return url;
+    if (/^https?:\/\//i.test(url)) return url;
+    return base.replace(/\/$/, "") + url;
+  });
+
   // Episodes collection: everything in src/episodes, newest first
   eleventyConfig.addCollection("episodes", (collectionApi) => {
     return collectionApi.getFilteredByGlob("src/episodes/*.md").sort((a, b) => {

@@ -3,14 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title or site.title }}</title>
-  <meta name="description" content="{{ description or site.description }}">
 
-  <meta property="og:title" content="{{ title or site.title }}">
-  <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  {% if coverImage %}<meta property="og:image" content="{{ coverImage }}">{% endif %}
-  <meta property="og:type" content="website">
+  {%- set pageTitle = title or site.title %}
+  {%- set pageDescription = description or excerpt or site.description %}
+  {%- set pageImage = (coverImage or site.logoImage) | absoluteUrl(site.url) %}
+  {%- set pageUrl = page.url | absoluteUrl(site.url) %}
+
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{ pageUrl }}">
+  <meta name="theme-color" content="#ff3d7f">
+
+  <!-- Open Graph (Discord, Facebook, Slack, LinkedIn, etc. all read these) -->
+  <meta property="og:type" content="{{ 'article' if coverImage else 'website' }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDescription }}">
+  <meta property="og:url" content="{{ pageUrl }}">
+  <meta property="og:image" content="{{ pageImage }}">
+  <meta property="og:image:alt" content="{{ pageTitle }}">
+
+  <!-- X / Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ pageTitle }}">
+  <meta name="twitter:description" content="{{ pageDescription }}">
+  <meta name="twitter:image" content="{{ pageImage }}">
+
+  <!-- Structured data, for Google -->
+  {%- if coverImage %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "headline": {{ title | dump | safe }},
+    "name": {{ title | dump | safe }},
+    "description": {{ pageDescription | dump | safe }},
+    "image": {{ pageImage | dump | safe }},
+    "datePublished": {{ date | isoDate | dump | safe }},
+    "url": {{ pageUrl | dump | safe }},
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ site.title | dump | safe }},
+      "url": {{ site.url | dump | safe }}
+    }
+  }
+  </script>
+  {%- else %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": {{ site.title | dump | safe }},
+    "url": {{ (site.url + "/") | dump | safe }},
+    "description": {{ site.description | dump | safe }}
+  }
+  </script>
+  {%- endif %}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
