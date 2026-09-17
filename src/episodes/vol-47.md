@@ -4,7 +4,7 @@ title: EDC Discord Music Night LIVE Vol 47
 permalink: /episodes/vol-47/
 date: '2026-09-12'
 coverImage: /img/episodes/vol-47.jpg
-excerpt: 'September''s exclusive sets, plus a 500-follower celebration bonus set.'
+excerpt: 'September''s exclusive sets, plus a 500-follower celebration segment.'
 nextShow: >-
   Our next go-live date is October 17th at 7PM ET / 4PM PT for Volume 48 — our
   biggest Music Night LIVE yet. Catch us for MNL Rewind every Sunday night at
