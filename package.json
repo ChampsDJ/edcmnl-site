@@ -6,6 +6,7 @@
   "scripts": {
     "build": "eleventy",
     "serve": "eleventy --serve",
+    "migrate-images": "node scripts/migrate-images.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,6 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
+    "gray-matter": "^4.0.3",
     "luxon": "^3.7.2"
   }
 }

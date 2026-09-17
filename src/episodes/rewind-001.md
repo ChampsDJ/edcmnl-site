@@ -3,26 +3,31 @@ layout: episode.njk
 title: EDC Discord Music Night REWIND... LIVE Vol 001
 permalink: /episodes/rewind-001/
 date: '2024-09-25'
-coverImage: https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEir0NI304PpS4gO2X6d9l1lJalna9uZ6TQgn6YSwA3guIKGCWpNdWcTfCRnN0zqDml2nU8U5UqyT8vdjIuxAr_9uj6hRRPbR6q4_C5dyEKlqT7BtYJet_7dMXUcpq7rqnBgUoQhRpvDgZUmbelCVf11b8Vr04UCR27tScbm1VRwI3yq7GKkanq3W_Z2cqs/s2251/REMIX_EDMNL_Graphics_2023_Main_IG_1080.jpg
-excerpt: A special surprise LIVE Rewind featuring DJ Panda, Papabear, and HXADCBL.
+coverImage: /img/episodes/rewind-001.jpg
+excerpt: 'A special surprise LIVE Rewind featuring DJ Panda, Papabear, and HXADCBL.'
 series: Music Night REWIND
-nextShow: Our next Music Night LIVE is on October 19th at 7pm ET! It will be our Halloween episode with plenty of spooky surprises!
+nextShow: >-
+  Our next Music Night LIVE is on October 19th at 7pm ET! It will be our
+  Halloween episode with plenty of spooky surprises!
 djs:
-- name: HXADCBL
-  link: https://www.mixcloud.com/hxadcbl/
-  items:
-  - label: VOD
-    url: https://mega.nz/file/qxxWGYjJ#0uBuiVqY4ZHkr2-BQ_3yYHINs_3pEb_1f4QY7vk7wac
-- name: DJ Panda
-  link: https://soundcloud.com/amanda-waggoner-91594060
-  items:
-  - label: VOD
-    url: https://mega.nz/file/ykZ31YDQ#P6Wm4I2V-9tNl3pCjAPv2aO2b8ze0lOpCp-0NOPE7Dc
-- name: Papabear
-  link: https://www.mixcloud.com/papabear1977/
-  items:
-  - label: VOD
-    url: https://mega.nz/file/TkRmjADZ#ZXFAqa4jse0GdtBXVeP8_HJ0NEatSpyvQm9fqAqmDRo
+  - name: HXADCBL
+    link: 'https://www.mixcloud.com/hxadcbl/'
+    items:
+      - label: VOD
+        url: >-
+          https://mega.nz/file/qxxWGYjJ#0uBuiVqY4ZHkr2-BQ_3yYHINs_3pEb_1f4QY7vk7wac
+  - name: DJ Panda
+    link: 'https://soundcloud.com/amanda-waggoner-91594060'
+    items:
+      - label: VOD
+        url: >-
+          https://mega.nz/file/ykZ31YDQ#P6Wm4I2V-9tNl3pCjAPv2aO2b8ze0lOpCp-0NOPE7Dc
+  - name: Papabear
+    link: 'https://www.mixcloud.com/papabear1977/'
+    items:
+      - label: VOD
+        url: >-
+          https://mega.nz/file/TkRmjADZ#ZXFAqa4jse0GdtBXVeP8_HJ0NEatSpyvQm9fqAqmDRo
 ---
 Wow... this set of uploads is special. Near the end of 2023, we decided to start doing a recap series on the Twitch channel called EDC Discord Music Night Rewind. We've run this twice weekly show for 10 months now, showcasing previous MNL sets we'd accrued in the previous year and a half of running the show.
 

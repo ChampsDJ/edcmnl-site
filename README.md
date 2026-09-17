@@ -136,9 +136,25 @@ This is the closest thing to "backend logic" here:
 ## Hosting images
 
 Episode files currently point at their original Blogger-hosted image URLs,
-which will keep working indefinitely. For full independence going forward,
-drop new cover art into `src/img/episodes/` and reference it as
-`/img/episodes/your-file.jpg` in `coverImage`.
+which will keep working indefinitely. For full independence from Google's
+infrastructure, run the migration script below — or, for any new episode
+you add by hand going forward, just drop the art straight into
+`src/img/episodes/` and reference it as `/img/episodes/your-file.jpg` in
+`coverImage`.
+
+### Migrating all cover images to local files
+
+```bash
+npm run migrate-images -- --dry-run   # preview what it would do, writes nothing
+npm run migrate-images                 # downloads every remote cover into
+                                         # src/img/episodes/ and rewrites each
+                                         # episode's coverImage to the local path
+```
+
+This is safe to run more than once — episodes whose `coverImage` is already
+a local path (starts with `/img/episodes/...`) are skipped automatically,
+so re-running after adding new episodes only touches the new ones. Run it,
+review the changed files with `git diff`, commit, and push as usual.
 
 ## Running it locally
 
