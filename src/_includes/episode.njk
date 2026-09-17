@@ -1,0 +1,57 @@
+---
+layout: base.njk
+---
+<article class="episode">
+
+  <div class="episode__hero">
+    <img class="episode__cover" src="{{ coverImage }}" alt="{{ title }} cover art" loading="lazy">
+  </div>
+
+  <div class="episode__header">
+    <p class="episode__eyebrow">{{ series or "Music Night LIVE" }}</p>
+    <h1 class="episode__title">{{ title }}</h1>
+    <p class="episode__date">{{ date | readableDate }}</p>
+  </div>
+
+  <div class="episode__intro">
+    {{ content | safe }}
+  </div>
+
+  {% if nextShow %}
+  <div class="episode__callout">
+    <p>{{ nextShow }}</p>
+  </div>
+  {% endif %}
+
+  {% if djs and djs.length %}
+  <section class="setlist">
+    <h2 class="setlist__title">Set Order &amp; Links</h2>
+    <ol class="setlist__list">
+      {% for dj in djs %}
+      <li class="setlist__item">
+        <div class="setlist__number">{{ loop.index }}</div>
+        <div class="setlist__body">
+          {% if dj.link %}
+          <a class="setlist__name" href="{{ dj.link }}">{{ dj.name }}</a>
+          {% else %}
+          <span class="setlist__name">{{ dj.name }}</span>
+          {% endif %}
+          <ul class="setlist__extras">
+            {% for item in dj.items %}
+            <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  {% if closingNote %}
+  <div class="episode__closing">
+    {{ closingNote | safe }}
+  </div>
+  {% endif %}
+
+</article>

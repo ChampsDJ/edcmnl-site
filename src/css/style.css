@@ -1,0 +1,384 @@
+/* ---------------------------------------------------------
+   EDC Discord Music Night LIVE — design tokens
+--------------------------------------------------------- */
+:root {
+  --bg: #14111f;
+  --panel: #1e1a30;
+  --panel-line: #322b4a;
+  --ink: #f4f2fa;
+  --ink-soft: #b6aed1;
+  --ink-faint: #8880a3;
+  --magenta: #ff3d7f;
+  --magenta-dim: #7a2145;
+  --cyan: #35e8ff;
+
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --measure: 640px;
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--cyan);
+  text-decoration-color: rgba(53, 232, 255, 0.35);
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration-color: var(--cyan); }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* Faint skyline silhouette behind everything, evokes the festival grounds
+   at night without leaning on a literal photo. Pure decoration. */
+.skyline {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 38vh;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 120%, rgba(255, 61, 127, 0.14), transparent 60%),
+    radial-gradient(ellipse at 82% 130%, rgba(53, 232, 255, 0.10), transparent 55%);
+}
+
+/* ---------------------------------------------------------
+   Header
+--------------------------------------------------------- */
+.site-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2rem clamp(1.25rem, 5vw, 3rem) 1.5rem;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-header__mark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  background: var(--magenta);
+  color: #170a10;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.site-header__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.site-header__nav a { color: var(--ink-soft); text-decoration: none; }
+.site-header__nav a:hover { color: var(--cyan); }
+
+/* ---------------------------------------------------------
+   Homepage intro
+--------------------------------------------------------- */
+.intro {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem clamp(1.25rem, 5vw, 3rem) 3rem;
+  border-bottom: 1px solid var(--panel-line);
+}
+
+.intro__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.02;
+  margin: 0 0 1rem;
+  max-width: 11ch;
+}
+
+.intro__lede {
+  max-width: var(--measure);
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   Episode list (homepage)
+--------------------------------------------------------- */
+.episode-list {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 3rem) 4rem;
+}
+
+.episode-card {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: 1.5rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--panel-line);
+  text-decoration: none;
+  color: inherit;
+}
+.episode-card:first-child { padding-top: 2rem; }
+
+.episode-card__art {
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--panel);
+  outline: 1px solid var(--panel-line);
+}
+.episode-card__art img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.episode-card:hover .episode-card__art img { transform: scale(1.04); }
+
+.episode-card__date {
+  margin: 0 0 0.35rem;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.episode-card__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+}
+.episode-card:hover .episode-card__title { color: var(--magenta); }
+
+.episode-card__excerpt {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  max-width: 62ch;
+}
+
+@media (max-width: 560px) {
+  .episode-card { grid-template-columns: 96px 1fr; gap: 1rem; }
+  .episode-card__title { font-size: 1.1rem; }
+}
+
+/* ---------------------------------------------------------
+   Episode page
+--------------------------------------------------------- */
+.episode {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 3rem) 5rem;
+}
+
+.episode__hero {
+  border-radius: 14px;
+  overflow: hidden;
+  outline: 1px solid var(--panel-line);
+  margin-bottom: 2rem;
+}
+.episode__cover { width: 100%; display: block; }
+
+.episode__eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--magenta);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.episode__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  line-height: 1.08;
+  margin: 0 0 0.6rem;
+}
+
+.episode__date {
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin: 0 0 2rem;
+}
+
+.episode__intro {
+  max-width: var(--measure);
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+.episode__intro p { margin: 0 0 1.1rem; }
+.episode__intro img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 0.5rem 0 1.3rem;
+  outline: 1px solid var(--panel-line);
+}
+.episode__intro a { color: var(--cyan); font-weight: 600; }
+
+.episode__callout {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-left: 3px solid var(--magenta);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  margin: 0 0 2.5rem;
+  max-width: var(--measure);
+}
+.episode__callout p { margin: 0; color: var(--ink); font-weight: 600; }
+
+.episode__closing {
+  margin-top: 2.5rem;
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+
+/* ---------------------------------------------------------
+   Set order / lineup list
+--------------------------------------------------------- */
+.setlist__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0 0 1.3rem;
+}
+
+.setlist__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--panel-line);
+}
+
+.setlist__item {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr;
+  gap: 1rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--panel-line);
+}
+
+.setlist__number {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: var(--magenta-dim);
+}
+
+.setlist__name {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.08rem;
+  color: var(--ink);
+  text-decoration: none;
+  margin-bottom: 0.4rem;
+}
+a.setlist__name:hover { color: var(--magenta); }
+
+.setlist__extras {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin: 0;
+  padding: 0;
+}
+.setlist__extras a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(53, 232, 255, 0.35);
+}
+.setlist__extras a:hover { border-color: var(--cyan); }
+
+/* ---------------------------------------------------------
+   Footer
+--------------------------------------------------------- */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2.5rem clamp(1.25rem, 5vw, 3rem) 3rem;
+  border-top: 1px solid var(--panel-line);
+}
+
+.site-footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  align-items: baseline;
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+}
+
+.site-footer__links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin: 0;
+  padding: 0;
+}
+.site-footer__links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+}
+.site-footer__links a:hover { color: var(--cyan); }
+
+.site-footer__tag {
+  margin: 1.25rem 0 0;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .episode-card__art img { transition: none; }
+}

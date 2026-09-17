@@ -1,0 +1,23 @@
+---
+layout: base.njk
+title: EDC Discord Music Night LIVE
+---
+<section class="intro">
+  <h1 class="intro__title">EDC Discord<br>Music Night LIVE</h1>
+  <p class="intro__lede">{{ site.description }}</p>
+</section>
+
+<section class="episode-list">
+  {% for episode in collections.episodes %}
+  <a class="episode-card" href="{{ episode.url }}">
+    <div class="episode-card__art">
+      <img src="{{ episode.data.coverImage }}" alt="" loading="lazy">
+    </div>
+    <div class="episode-card__body">
+      <p class="episode-card__date">{{ episode.data.date | shortDate }}</p>
+      <h2 class="episode-card__title">{{ episode.data.title }}</h2>
+      <p class="episode-card__excerpt">{{ episode.data.excerpt }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</section>
