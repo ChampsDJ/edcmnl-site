@@ -176,7 +176,7 @@ button:focus-visible {
 .episode-list__heading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-faint);
