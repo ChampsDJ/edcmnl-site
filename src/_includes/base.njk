@@ -77,8 +77,8 @@
       <img class="site-header__banner" src="{{ site.logoImage }}" alt="{{ site.title }}" width="800" height="99">
     </a>
     <nav class="site-header__nav">
-      <a href="{{ site.twitch }}" class="site-header__icon site-header__icon--twitch" aria-label="Twitch"></a>
-      <a href="{{ site.discord }}" class="site-header__icon site-header__icon--discord" aria-label="Discord"></a>
+      <a href="{{ site.twitch }}" class="site-header__icon site-header__icon--twitch" aria-label="Twitch" target="_blank" rel="noopener noreferrer"></a>
+	  <a href="{{ site.discord }}" class="site-header__icon site-header__icon--discord" aria-label="Discord" target="_blank" rel="noopener noreferrer"></a>
     </nav>
   </header>
 
@@ -91,7 +91,7 @@
     <p class="site-footer__tagline">Until we meet again Under the Electric Sky... we vibe on Discord.</p>
     <ul class="site-footer__links">
       {% for link in site.links %}
-      <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+      <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a></li>
       {% endfor %}
     </ul>
     <p class="site-footer__est">Est. {{ site.founded }} &mdash; {{ site.title }}</p>
