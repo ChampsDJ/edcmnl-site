@@ -173,6 +173,16 @@ button:focus-visible {
   padding: 0 clamp(1.25rem, 5vw, 3rem) 4rem;
 }
 
+/* Heading on the left, List | Grid toggle on the right */
+.episode-list__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 2rem 0 0;
+}
+
 .episode-list__heading {
   font-family: var(--font-display);
   font-weight: 700;
@@ -180,7 +190,51 @@ button:focus-visible {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  margin: 2rem 0 0;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   View toggle (List | Grid)
+--------------------------------------------------------- */
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+/* the hidden attribute is the no-JavaScript fallback: the toggle only
+   appears once the script on the page has run */
+.view-toggle[hidden] { display: none; }
+
+.view-toggle__label {
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.view-toggle__buttons {
+  display: inline-flex;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.view-toggle__btn {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.view-toggle__btn:hover { color: var(--cyan); }
+.view-toggle__btn[aria-pressed="true"] {
+  background: var(--magenta);
+  color: #170a10;
+  cursor: default;
 }
 
 .episode-card {
@@ -237,6 +291,57 @@ button:focus-visible {
 @media (max-width: 560px) {
   .episode-card { grid-template-columns: 96px 1fr; gap: 1rem; }
   .episode-card__title { font-size: 1.1rem; }
+}
+
+/* Short "Vol 47" title is only used in grid view */
+.episode-card__title-short { display: none; }
+
+/* ---------------------------------------------------------
+   Grid view (toggled by the is-grid class on .episode-list)
+   4 columns on desktop, 3 on tablet, 2 on phones
+--------------------------------------------------------- */
+.is-grid .episode-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem 1.25rem;
+  padding-top: 2rem;
+}
+
+.is-grid .episode-card,
+.is-grid .episode-card:first-child {
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 0.75rem;
+  padding: 0;
+  border-bottom: none;
+}
+
+.is-grid .episode-card__excerpt { display: none; }
+
+.is-grid .episode-card__date {
+  margin: 0 0 0.15rem;
+  font-size: 0.8rem;
+}
+
+.is-grid .episode-card__title {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.is-grid .episode-card__title-full { display: none; }
+.is-grid .episode-card__title-short { display: inline; }
+
+@media (max-width: 860px) {
+  .is-grid .episode-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .is-grid .episode-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1rem;
+  }
+  .is-grid .episode-card__title { font-size: 0.95rem; }
 }
 
 /* ---------------------------------------------------------

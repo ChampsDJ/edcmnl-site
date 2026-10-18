@@ -7,18 +7,64 @@ title: EDC Discord Music Night LIVE
   <p class="intro__lede">{{ site.description }}</p>
 </section>
 
-<section class="episode-list">
-  <h2 class="episode-list__heading">Episodes</h2>
-  {% for episode in collections.episodes %}
-  <a class="episode-card" href="{{ episode.url }}">
-    <div class="episode-card__art">
-      <img src="{{ episode.data.coverImage }}" alt="" loading="lazy">
+<section class="episode-list is-list">
+  <div class="episode-list__bar">
+    <h2 class="episode-list__heading">Episodes</h2>
+    <div class="view-toggle" hidden>
+      <span class="view-toggle__label">View:</span>
+      <div class="view-toggle__buttons">
+        <button type="button" class="view-toggle__btn" data-view="list" aria-pressed="true">List</button>
+        <button type="button" class="view-toggle__btn" data-view="grid" aria-pressed="false">Grid</button>
+      </div>
     </div>
-    <div class="episode-card__body">
-      <p class="episode-card__date">{{ episode.data.date | shortDate }}</p>
-      <h2 class="episode-card__title">{{ episode.data.title }}</h2>
-      <p class="episode-card__excerpt">{{ episode.data.excerpt }}</p>
-    </div>
-  </a>
-  {% endfor %}
+  </div>
+
+  <script>
+    (function () {
+      var section = document.currentScript.parentElement;
+      var toggle = section.querySelector('.view-toggle');
+      var buttons = toggle.querySelectorAll('[data-view]');
+
+      function setView(view, save) {
+        section.classList.toggle('is-grid', view === 'grid');
+        section.classList.toggle('is-list', view !== 'grid');
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-view') === view));
+        });
+        if (save) {
+          try { localStorage.setItem('mnl-view', view); } catch (e) {}
+        }
+      }
+
+      var saved = null;
+      try { saved = localStorage.getItem('mnl-view'); } catch (e) {}
+      setView(saved === 'grid' ? 'grid' : 'list', false);
+      toggle.hidden = false;
+
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          setView(b.getAttribute('data-view'), true);
+        });
+      });
+    })();
+  </script>
+
+  <div class="episode-cards">
+    {% for episode in collections.episodes %}
+    {% set shortTitle = episode.data.title | replace(r/^.*Vol\s+0*/, "Vol ") %}
+    <a class="episode-card" href="{{ episode.url }}">
+      <div class="episode-card__art">
+        <img src="{{ episode.data.coverImage }}" alt="" loading="lazy">
+      </div>
+      <div class="episode-card__body">
+        <p class="episode-card__date">{{ episode.data.date | shortDate }}</p>
+        <h2 class="episode-card__title">
+          <span class="episode-card__title-full">{{ episode.data.title }}</span>
+          <span class="episode-card__title-short">{% if "REWIND" in episode.data.title %}Rewind {% endif %}{{ shortTitle }}</span>
+        </h2>
+        <p class="episode-card__excerpt">{{ episode.data.excerpt }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
 </section>
