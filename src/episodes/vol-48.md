@@ -45,6 +45,8 @@ djs:
       - label: VOD
         url: >-
           https://mega.nz/file/PwBj3JjR#xj_zctGkgzFlzY0FhpBt01HXdVAGDMjo_KniSiowGe4
+      - label: SoundCloud
+        url: 'https://soundcloud.com/spectral_redshift/spookfest-2026-codename'
   - name: Culture Consumer
     link: 'https://soundcloud.com/cultureconsumer'
     items:
